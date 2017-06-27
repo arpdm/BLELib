@@ -1,0 +1,10 @@
+framework module BTLE {
+  umbrella header "BTLE.h"
+
+  export *
+  module * { export * }
+}
+
+module BTLE.Swift {
+    header "BTLE-Swift.h"
+}
