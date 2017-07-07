@@ -10,14 +10,14 @@
 		885A298E1EFC730200BC029F /* BTLE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 885A29841EFC730200BC029F /* BTLE.framework */; };
 		885A29931EFC730200BC029F /* BTLETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A29921EFC730200BC029F /* BTLETests.swift */; };
 		885A29951EFC730200BC029F /* BTLE.h in Headers */ = {isa = PBXBuildFile; fileRef = 885A29871EFC730200BC029F /* BTLE.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		885A29A21EFC734C00BC029F /* BT-Classic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A299E1EFC734C00BC029F /* BT-Classic.swift */; };
-		885A29A31EFC734C00BC029F /* BT-Classic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A299E1EFC734C00BC029F /* BT-Classic.swift */; };
-		885A29A41EFC734C00BC029F /* BT-Smart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A299F1EFC734C00BC029F /* BT-Smart.swift */; };
-		885A29A51EFC734C00BC029F /* BT-Smart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A299F1EFC734C00BC029F /* BT-Smart.swift */; };
-		885A29A61EFC734C00BC029F /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A29A01EFC734C00BC029F /* Configuration.swift */; };
-		885A29A71EFC734C00BC029F /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A29A01EFC734C00BC029F /* Configuration.swift */; };
-		885A29A81EFC734C00BC029F /* CoreBTLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A29A11EFC734C00BC029F /* CoreBTLib.swift */; };
-		885A29A91EFC734C00BC029F /* CoreBTLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A29A11EFC734C00BC029F /* CoreBTLib.swift */; };
+		889750A91F1013CB009088A6 /* BT-Classic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889750A51F1013CB009088A6 /* BT-Classic.swift */; };
+		889750AA1F1013CB009088A6 /* BT-Classic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889750A51F1013CB009088A6 /* BT-Classic.swift */; };
+		889750AB1F1013CB009088A6 /* BT-Smart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889750A61F1013CB009088A6 /* BT-Smart.swift */; };
+		889750AC1F1013CB009088A6 /* BT-Smart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889750A61F1013CB009088A6 /* BT-Smart.swift */; };
+		889750AD1F1013CB009088A6 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889750A71F1013CB009088A6 /* Configuration.swift */; };
+		889750AE1F1013CB009088A6 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889750A71F1013CB009088A6 /* Configuration.swift */; };
+		889750AF1F1013CB009088A6 /* CoreBTLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889750A81F1013CB009088A6 /* CoreBTLib.swift */; };
+		889750B01F1013CB009088A6 /* CoreBTLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889750A81F1013CB009088A6 /* CoreBTLib.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,10 +37,10 @@
 		885A298D1EFC730200BC029F /* BTLETests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BTLETests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		885A29921EFC730200BC029F /* BTLETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTLETests.swift; sourceTree = "<group>"; };
 		885A29941EFC730200BC029F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		885A299E1EFC734C00BC029F /* BT-Classic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BT-Classic.swift"; sourceTree = "<group>"; };
-		885A299F1EFC734C00BC029F /* BT-Smart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BT-Smart.swift"; sourceTree = "<group>"; };
-		885A29A01EFC734C00BC029F /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		885A29A11EFC734C00BC029F /* CoreBTLib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreBTLib.swift; sourceTree = "<group>"; };
+		889750A51F1013CB009088A6 /* BT-Classic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BT-Classic.swift"; sourceTree = "<group>"; };
+		889750A61F1013CB009088A6 /* BT-Smart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BT-Smart.swift"; sourceTree = "<group>"; };
+		889750A71F1013CB009088A6 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		889750A81F1013CB009088A6 /* CoreBTLib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreBTLib.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,11 +83,11 @@
 		885A29861EFC730200BC029F /* BTLE */ = {
 			isa = PBXGroup;
 			children = (
-				885A299E1EFC734C00BC029F /* BT-Classic.swift */,
-				885A299F1EFC734C00BC029F /* BT-Smart.swift */,
-				885A29A01EFC734C00BC029F /* Configuration.swift */,
-				885A29A11EFC734C00BC029F /* CoreBTLib.swift */,
 				885A29871EFC730200BC029F /* BTLE.h */,
+				889750A51F1013CB009088A6 /* BT-Classic.swift */,
+				889750A61F1013CB009088A6 /* BT-Smart.swift */,
+				889750A71F1013CB009088A6 /* Configuration.swift */,
+				889750A81F1013CB009088A6 /* CoreBTLib.swift */,
 				885A29881EFC730200BC029F /* Info.plist */,
 			);
 			path = BTLE;
@@ -213,10 +213,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				885A29A81EFC734C00BC029F /* CoreBTLib.swift in Sources */,
-				885A29A61EFC734C00BC029F /* Configuration.swift in Sources */,
-				885A29A21EFC734C00BC029F /* BT-Classic.swift in Sources */,
-				885A29A41EFC734C00BC029F /* BT-Smart.swift in Sources */,
+				889750AF1F1013CB009088A6 /* CoreBTLib.swift in Sources */,
+				889750AD1F1013CB009088A6 /* Configuration.swift in Sources */,
+				889750A91F1013CB009088A6 /* BT-Classic.swift in Sources */,
+				889750AB1F1013CB009088A6 /* BT-Smart.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,10 +224,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				885A29A31EFC734C00BC029F /* BT-Classic.swift in Sources */,
-				885A29A51EFC734C00BC029F /* BT-Smart.swift in Sources */,
-				885A29A71EFC734C00BC029F /* Configuration.swift in Sources */,
-				885A29A91EFC734C00BC029F /* CoreBTLib.swift in Sources */,
+				889750AA1F1013CB009088A6 /* BT-Classic.swift in Sources */,
+				889750AC1F1013CB009088A6 /* BT-Smart.swift in Sources */,
+				889750AE1F1013CB009088A6 /* Configuration.swift in Sources */,
+				889750B01F1013CB009088A6 /* CoreBTLib.swift in Sources */,
 				885A29931EFC730200BC029F /* BTLETests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,6 +428,7 @@
 				885A299A1EFC730200BC029F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		885A299B1EFC730200BC029F /* Build configuration list for PBXNativeTarget "BTLETests" */ = {
 			isa = XCConfigurationList;
@@ -436,6 +437,7 @@
 				885A299D1EFC730200BC029F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

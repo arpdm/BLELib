@@ -15,7 +15,7 @@ import UIKit
 
 @objc public class CoreBTLib:NSObject{
     
-    public var DEBUG_MODE               =   false               //User Parameter
+    public var DEBUG_MODE               =   true                //User Parameter
     public var AUTO_CONNECT             =   true                //User Parameter for enablign auto connection option
     public var CORE_BT_ST               =   CORE_BT_STATE()     //Current State Of The BT
    
@@ -43,6 +43,10 @@ import UIKit
     @objc public func InitializeCoreBTLib(characteristic:String){
         
         ConnectionTimeEllapsed = 0
+        
+        self.timeoutTimer?.invalidate()
+        CORE_BT_ST = CORE_BT_STATE()
+        
         self.Characteristic = characteristic
         NotificationCenter.default.removeObserver(self)
         
@@ -87,7 +91,7 @@ import UIKit
     
     @objc private func DisconnectedFromPeripheralDevice(notification:Notification){
         
-        CORE_BT_ST.peripheralState = PERIPHERAL_STATE.DISCONNECTED
+        CORE_BT_ST.peripheralState = PERIPHERAL_STATE.IDLE
         
     }
     
@@ -167,10 +171,10 @@ import UIKit
        
         self.logger(msg: "Connecting to Peripgeral device with name: \(deviceName)")
         
-        CORE_BT_BLE.DisconnectFromBTModule()
         CORE_BT_BLE.ConnectToPeripheralDevice(deviceName: deviceName)
         
         //Activate the timeout routine timer
+        self.timeoutTimer?.invalidate()
         self.timeoutTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1), target: self, selector: #selector(CoreBTLib.ConnectionTimeoutRoutine), userInfo: nil, repeats: true)
         self.timeoutTimer?.fire()
     

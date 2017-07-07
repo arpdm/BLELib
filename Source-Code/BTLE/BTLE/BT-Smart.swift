@@ -37,7 +37,7 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      ****************************************************************************/
     
     public func Initialize(characteristic:String){
-    
+
         self.Cleanup()
         
         self.selectedCharacteristic = characteristic
@@ -64,39 +64,44 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
             case .poweredOn:
                 
                 self.logger(msg: "GOING TO SCAN FOR DEVICES")
+                
                 //As soon as we detect bluetooth is on, start scanning for nearby devices
                 self.startScanning()
+                
                 break
             
             case .poweredOff:
                 
+                self.logger(msg: "POWERED OFF")
                 //TODO: WE Will Decide what to do here later on
                 break
             
             case .resetting:
             
+                self.logger(msg: "RESETTING")
                 //TODO: We will decide what to do here later on
                 break
             
             case .unauthorized:
             
+                self.logger(msg: "UNAUtHORIZED")
                 //TODO: We will decide what to do here later on
                 break
             
             case .unknown:
             
+                self.logger(msg: "UNKNOWN")
                 //TODO: We will decide what to do here later on
                 break
             
             case .unsupported:
             
+                self.logger(msg: "UNSOPPORTED")
                 //TODO: We will decide what to do here later on
                 break
+        
             
         }
-        
-        
-        self.logger(msg: "CENTRAL DEVICE STATE: \(central.state.rawValue)")
 
     }
     
@@ -110,7 +115,7 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      ****************************************************************************/
     
     private func startScanning(){
-        
+            
         //Before scanning for devices, we want to reset all the containters
         self.PeripheralDevices = []
         self.PeripheralDeviceNames = []
@@ -156,11 +161,9 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      ****************************************************************************/
     
     public func ConnectToPeripheralDevice(deviceName:String){
-    
+        
         for device in PeripheralDevices{
             
-            self.logger(msg: "SELECTED DEVICE NAME: \(deviceName)")
-           
             if device.name != nil{
                 
                 if device.name! == deviceName{
@@ -229,8 +232,6 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
             return
             
         }
-        
-        self.logger(msg: "SERVICES: \(peripheral.services!)")
         
         //Discover characteristics for each service
         for service in peripheral.services!{
@@ -368,11 +369,14 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?){
         
-        //After the connection is closed successfully, we want to make sure to reset all of our object variables 
-        //To start from a clean slate
+        //If connection got disconnected, try to re establish connection
+        //TODO: Check if reconnection has been requested or not.
         
-        self.PeripheralDevice = nil
-        self.TrasnmitCharacteristic = nil
+        if self.PeripheralDevice != nil{
+            
+            self.CB_Central_Manager.connect(self.PeripheralDevice!, options: nil)
+            
+        }
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: BLE_DISCONNECT_NOTIFICATION), object: nil)
         
