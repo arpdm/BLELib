@@ -3,7 +3,7 @@
 //  BTLE
 //
 //  Created by Arpi Derm on 6/22/17.
-//  Copyright © 2017 RP. All rights reserved.
+//  Copyright © 2017. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

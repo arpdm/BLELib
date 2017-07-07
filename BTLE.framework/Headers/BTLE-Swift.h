@@ -343,6 +343,18 @@ SWIFT_CLASS("_TtC4BTLE9CoreBTLib")
 - (void)ConnectToDeviceWithDeviceName:(NSString * _Nonnull)deviceName;
 /// <hr/>
 /// \code
+///  * Function :   CloseBTConnection
+///  * Input    :   none
+///  * Output   :   none
+///  * Comment  :   Closes current BT COnnection
+///  *
+///  *
+///  ***************************************************************************
+///
+/// \endcode
+- (void)CloseBTConnection;
+/// <hr/>
+/// \code
 ///  * Function :   StartThroughputTests
 ///  * Input    :   None
 ///  * Output   :   None
