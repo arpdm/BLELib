@@ -38,6 +38,8 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
     
     public func Initialize(characteristic:String){
     
+        self.Cleanup()
+        
         self.selectedCharacteristic = characteristic
         CB_Central_Manager = CBCentralManager(delegate: self, queue: nil)
         

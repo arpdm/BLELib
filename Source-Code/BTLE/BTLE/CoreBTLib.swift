@@ -42,7 +42,9 @@ import UIKit
     
     @objc public func InitializeCoreBTLib(characteristic:String){
         
+        ConnectionTimeEllapsed = 0
         self.Characteristic = characteristic
+        NotificationCenter.default.removeObserver(self)
         
         //Erase al saed peripheral device names before initialization
         UserDefaults.standard.set(nil, forKey: PERIPHERAL_DEVICE_NAME_LIST_DEFAULTS)
@@ -165,12 +167,28 @@ import UIKit
        
         self.logger(msg: "Connecting to Peripgeral device with name: \(deviceName)")
         
+        CORE_BT_BLE.DisconnectFromBTModule()
         CORE_BT_BLE.ConnectToPeripheralDevice(deviceName: deviceName)
         
         //Activate the timeout routine timer
         self.timeoutTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1), target: self, selector: #selector(CoreBTLib.ConnectionTimeoutRoutine), userInfo: nil, repeats: true)
         self.timeoutTimer?.fire()
     
+    }
+    
+    /*****************************************************************************
+     * Function :   CloseBTConnection
+     * Input    :   none
+     * Output   :   none
+     * Comment  :   Closes current BT COnnection
+     *
+     *
+     ****************************************************************************/
+    
+    public func CloseBTConnection(){
+    
+        CORE_BT_BLE.DisconnectFromBTModule()
+
     }
     
     /*****************************************************************************
