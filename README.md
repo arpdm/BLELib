@@ -7,6 +7,7 @@ Bluetooth Low Energy Framework For iOS devices. This framework is designed to si
 * Connect To Device
 * Transmit Data
 * Recieve Data
+* Close Connection
 
 #### Note: Please refere to the interface manual PDF for implementation guidelines. 
 
