@@ -26,5 +26,35 @@ This library allows the option to enable all logs for debugging purposes. During
 
 ### Functions:
 
+**Initialize**
+
+```swift
+public func Initialize (debugMode: Bool, characteristicUUID: String);
+```
+
+**Connect To Peripheral Device**
+
+```swift
+public func ConnectToPeripheralDevice (deviceName: Bool);
+```
+
+**Transmit Data**
+
+```swift
+public func TransmitData (byteArray: [Uint8]);
+```
+
+**Get Device Names**
+
+```swift
+public func GetDeviceNames ()-> [String];
+```
+
+**DISCONNECT**
+
+```swift
+public func DisconnectFromPeripheralDevice ()-> [String];
+```
+
 
 ### Implementation Example:
