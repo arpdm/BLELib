@@ -1,108 +1,100 @@
 //
-//  File.swift
-//  CoreBTLib
+//  BLELib.swift
 //
-//  Created by Arpi Derm on 4/12/17.
-//  Copyright © 2017. All rights reserved.
+//  Created by Arpi Derm on 9/9/17.
+//  Copyright © 2017 Arpi Derm. All rights reserved.
 //
 
 import Foundation
 import CoreBluetooth
 
-public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
+
+public class BLELib:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
     
-    public var DEBUG_MODE = false
+    
+    private var DebugMode = false
     
     private var CB_Central_Manager = CBCentralManager()
     private var PeripheralDevice:CBPeripheral?              //Discovered Peripheral Device
     private var TrasnmitCharacteristic:CBCharacteristic?    //Sercice Characteristic For reading and writing
     private var PeripheralDevices:[CBPeripheral] = []       //List Of Filtered Peripheral Devices
     private var PeripheralDeviceNames:[String]   = []       //List of Filtered Peripheral Device Names
-    public  var DataFromPeriperalAscii:String?              //Incomming Data From BT Peripheral In ASCII Mode
-    public  var DataFromPeriperalByteArray:[UInt8]?         //Incomming Data From BT Peripheral In Byte Array Mode
-
+  
+    private var DataFromPeriperalAscii:String?              //Incomming Data From BT Peripheral In ASCII Mode
+    private var DataFromPeriperalByteArray:[UInt8]?         //Incomming Data From BT Peripheral In Byte Array Mode
+    
     
     //Services and Characteristics
     
     private var selectedCharacteristic  = ""
-    
+
     /*****************************************************************************
      * Function :   Initialize
-     * Input    :   none
+     * Input    :   debugMode (Bool) , characteristic UUID to read/write
      * Output   :   none
      * Comment  :   Initialize Central Manager To Handle all BLE Connections
      *              TO Untegrate this library we have to start from here
-     *
-     *
      ****************************************************************************/
     
-    public func Initialize(characteristic:String){
-
+    public func Initialize(debugMode:Bool,characteristicUUID:String){
+        
         self.Cleanup()
         
-        self.selectedCharacteristic = characteristic
+        self.DebugMode = debugMode
+        self.selectedCharacteristic = characteristicUUID
+        
+        //Instantiate New Central Manager
         CB_Central_Manager = CBCentralManager(delegate: self, queue: nil)
         
         self.logger(msg: "INITIALIZING THE CENTRAL DEVICE MANAGER")
-    
+        
     }
-
+    
     /*****************************************************************************
      * Function :   centralManagerDidUpdateState
      * Input    :   CBCentralManager
      * Output   :   none
      * Comment  :   This function is fired on notifications
      *              It gets fired, when there is a change is state
-     *
-     *
      ****************************************************************************/
     
     public func centralManagerDidUpdateState(_ central: CBCentralManager){
         
-        switch central.state{    
+        switch central.state{
             
-            case .poweredOn:
-                
-                self.logger(msg: "GOING TO SCAN FOR DEVICES")
-                
-                //As soon as we detect bluetooth is on, start scanning for nearby devices
-                self.startScanning()
-                
-                break
+        case .poweredOn:
             
-            case .poweredOff:
-                
-                self.logger(msg: "POWERED OFF")
-                //TODO: WE Will Decide what to do here later on
-                break
+            self.logger(msg: "GOING TO SCAN FOR DEVICES")
             
-            case .resetting:
+            //As soon as we detect bluetooth is on, start scanning for nearby devices
+            self.startScanning()
             
-                self.logger(msg: "RESETTING")
-                //TODO: We will decide what to do here later on
-                break
+        case .resetting:
             
-            case .unauthorized:
+            self.logger(msg: "RESETTING")
+            //TODO: We will decide what to do here later on
+            break
             
-                self.logger(msg: "UNAUtHORIZED")
-                //TODO: We will decide what to do here later on
-                break
+        case .unauthorized:
             
-            case .unknown:
+            self.logger(msg: "UNAUtHORIZED")
+            //TODO: We will decide what to do here later on
+            break
             
-                self.logger(msg: "UNKNOWN")
-                //TODO: We will decide what to do here later on
-                break
+        case .unknown:
             
-            case .unsupported:
+            self.logger(msg: "UNKNOWN")
+            //TODO: We will decide what to do here later on
+            break
             
-                self.logger(msg: "UNSOPPORTED")
-                //TODO: We will decide what to do here later on
-                break
-        
+        case .unsupported:
+            
+            self.logger(msg: "UNSOPPORTED")
+            //TODO: We will decide what to do here later on
+            break
             
         }
-
+        
     }
     
     /*****************************************************************************
@@ -110,12 +102,10 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   none
      * Output   :   none
      * Comment  :   Trigger Peripheral Device Scan Function
-     *
-     *
      ****************************************************************************/
     
     private func startScanning(){
-            
+        
         //Before scanning for devices, we want to reset all the containters
         self.PeripheralDevices = []
         self.PeripheralDeviceNames = []
@@ -130,25 +120,21 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   none
      * Output   :   none
      * Comment  :   Notification Triggered When Peripheral Device Is Discovered
-     *
-     *
      ****************************************************************************/
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber){
         
+
         //We will add all the devices in separate array and all device names in another array
         //These arrays will be used for connection to compare the desired BT name against the list to see if it is even discovered
         self.PeripheralDevices.append(peripheral)
         
         if peripheral.name != nil{
+            
             self.PeripheralDeviceNames.append(peripheral.name!)
-        }else{
-            self.PeripheralDeviceNames.append("")
+            
         }
-        
-        //Saving all discovered devices in user defaults volatile memory
-        UserDefaults.standard.set(self.PeripheralDeviceNames, forKey: PERIPHERAL_DEVICE_NAME_LIST_DEFAULTS)
-                
+    
     }
     
     /*****************************************************************************
@@ -156,8 +142,6 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   Device Name - String
      * Output   :   none
      * Comment  :   Connect to selected device specified by the user
-     *
-     *
      ****************************************************************************/
     
     public func ConnectToPeripheralDevice(deviceName:String){
@@ -181,8 +165,6 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   none
      * Output   :   none
      * Comment  :   Notification Triggered when Failed to connect to device
-     *
-     *
      ****************************************************************************/
     
     public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?){
@@ -196,15 +178,13 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   none
      * Output   :   none
      * Comment  :   Notification Triggered when connection to peripheral device is successfull
-     *
-     *
      ****************************************************************************/
     
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral){
         
         //Notify the libaray that connection was successfull
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: BLE_CONNECTED_NOTIFICATION), object: nil)
-
+        
         self.PeripheralDevice = peripheral
         self.CB_Central_Manager.stopScan()
         self.PeripheralDevice!.delegate = self
@@ -219,8 +199,6 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   none
      * Output   :   none
      * Comment  :   Notification Triggered when services are discovered
-     *
-     *
      ****************************************************************************/
     
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?){
@@ -247,8 +225,6 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   none
      * Output   :   none
      * Comment  :   Notification Triggered when characteristics are discovered. Then notifications are enabled for RX and TX
-     *
-     *
      ****************************************************************************/
     
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?){
@@ -262,11 +238,11 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
         }
         
         self.logger(msg: "SERVICE CHARACTERISTICS: \(String(describing: service.characteristics))")
-
-        for characteristic in service.characteristics!{
         
-            if characteristic.uuid == CBUUID(string: selectedCharacteristic){
+        for characteristic in service.characteristics!{
             
+            if characteristic.uuid == CBUUID(string: selectedCharacteristic){
+                
                 //Enable the notification
                 self.TrasnmitCharacteristic = characteristic
                 self.logger(msg: "ENABLED NOTIFICATION FOR RX/TX OPERATIONS")
@@ -283,15 +259,13 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   none
      * Output   :   none
      * Comment  :   If Debug Mode Is True, logs data on terminal
-     *
-     *
      ****************************************************************************/
     
     private func logger(msg:String){
         
-        if DEBUG_MODE == true{
+        if self.DebugMode == true{
             
-            print("CoreBTLibBLE ===== \(msg)")
+            print("BLELib ===== \(msg)")
             
         }
         
@@ -302,12 +276,10 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   Byte Array : Hex Values in Decimal Number Format
      * Output   :   none
      * Comment  :   Notification gets triggered when there is incomming value from BT Module
-     *
-     *
      ****************************************************************************/
     
     public func TransmitData(byteArray:[UInt8]){
-    
+        
         guard TrasnmitCharacteristic != nil else{
             return
         }
@@ -316,7 +288,7 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
         self.logger(msg: "DATA TO TRANSMIT: \(byteArray)")
         
         self.PeripheralDevice!.writeValue(data as Data, for: TrasnmitCharacteristic!, type: .withoutResponse)
-    
+        
     }
     
     /*****************************************************************************
@@ -324,12 +296,10 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      * Input    :   none
      * Output   :   none
      * Comment  :   Notification gets triggered when there is incomming value from BT Module
-     *
-     *
      ****************************************************************************/
     
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?){
-
+        
         guard error == nil else{
             
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: BLE_ERROR_ACCURED_NOTIFICATION), object: nil)
@@ -338,15 +308,15 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
         }
         
         if characteristic.value != nil{
-    
+            
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: BLE_RECIEVED_RESPONSE_NOTIFICATION), object: nil)
-          
+            
             DataFromPeriperalAscii = String(data: characteristic.value!, encoding: String.Encoding.utf8)
             DataFromPeriperalByteArray = [UInt8](characteristic.value!)
             
             self.logger(msg: "DATA FROM BT - BLE MODULE - ASCII: \(String(describing: DataFromPeriperalAscii))")
             self.logger(msg: "DATA FROM BT - BLE MODULE - BYTE ARRAY: \(String(describing: DataFromPeriperalByteArray))")
-
+            
         }
         
     }
@@ -369,30 +339,20 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?){
         
-        //If connection got disconnected, try to re establish connection
-        //TODO: Check if reconnection has been requested or not.
-        
-        if self.PeripheralDevice != nil{
-            
-            self.CB_Central_Manager.connect(self.PeripheralDevice!, options: nil)
-            
-        }
-        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: BLE_DISCONNECT_NOTIFICATION), object: nil)
         
     }
     
     /*****************************************************************************
-    * Function :   Cleanup
-    * Input    :   none
-    * Output   :   none
-    * Comment  :   Disables all the notifications for specified characteristics
-    *              and cancels connection with the peripheral device
-    *
-    ****************************************************************************/
+     * Function :   Cleanup
+     * Input    :   none
+     * Output   :   none
+     * Comment  :   Disables all the notifications for specified characteristics
+     *              and cancels connection with the peripheral device
+     ****************************************************************************/
     
     private func Cleanup(){
-    
+        
         //Just making sure we dont modify a characteristic that is not there
         //This is just a way of cleaning things up before we open up new connections
         
@@ -407,7 +367,7 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
         
         //Close connection
         self.CB_Central_Manager.cancelPeripheralConnection(self.PeripheralDevice!)
-    
+        
     }
     
     /*****************************************************************************
@@ -419,7 +379,7 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
      *              Device
      ****************************************************************************/
     
-    public func DisconnectFromBTModule(){
+    public func DisconnectFromPeripheralDevice(){
         
         //Just making sure we dont modify a characteristic that is not there
         
@@ -431,6 +391,19 @@ public class BTSmart:NSObject,CBCentralManagerDelegate,CBPeripheralDelegate{
         
         self.PeripheralDevice?.setNotifyValue(false, for: TrasnmitCharacteristic!)
         self.CB_Central_Manager.cancelPeripheralConnection(self.PeripheralDevice!)
+        
+    }
+    
+    /*****************************************************************************
+     * Function :   GetDeviceNames
+     * Input    :   none
+     * Output   :   Array of Strings
+     * Comment  :   Fetch all the devices saved in the Non Volatile Memory
+     ****************************************************************************/
+    
+    public func GetDeviceNames()->[String]?{
+        
+        return self.PeripheralDeviceNames
         
     }
     
