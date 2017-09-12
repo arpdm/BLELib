@@ -58,3 +58,85 @@ public func DisconnectFromPeripheralDevice ()-> [String];
 
 
 ### Implementation Example:
+
+```swift
+NotificationCenter.default.addObserver(self, selector: #selector(BLECentralViewController.connectionFailed), name: NSNotification.Name(rawValue:BLE_FAILED_TO_CONNECT_NOTIFICATION), object: nil)
+NotificationCenter.default.addObserver(self, selector: #selector(BLECentralViewController.connectionSuccessfull), name: NSNotification.Name(rawValue:BLE_CONNECTED_NOTIFICATION), object: nil) 
+NotificationCenter.default.addObserver(self, selector: #selector(BLECentralViewController.readData(notification:)), name: NSNotification.Name(rawValue:BLE_RECIEVED_RESPONSE_NOTIFICATION), object: nil)
+NotificationCenter.default.addObserver(self, selector: #selector(BLECentralViewController.disconnectedFromDevice), name: NSNotification.Name(rawValue:BLE_DISCONNECT_NOTIFICATION), object: nil)
+
+/*****************************************************************************
+* Function :   initialize
+* Input    :   none
+* Output   :   none
+* Comment  :   Initializes the central device station and prepares for
+*              connection
+****************************************************************************/
+
+func initialize(){
+  CENTRAL_DEVICE.Initialize(debugMode: debugMode, characteristicUUID: "49535343-1E4D-4BD9-BA61-23C647249616")        
+}
+    
+/*****************************************************************************
+* Function :   connectToPeripheralDevice
+* Input    :   none
+* Output   :   none
+* Comment  :   Try to establish connection with peripheral device that was
+*              selected by the user
+****************************************************************************/
+
+func connectToPeripheralDevice(){
+        
+  let deviceName = UserDefaults.standard.value(forKey: "PeripheralDeviceName") as? String
+      
+  if deviceName != nil{
+     CENTRAL_DEVICE.ConnectToPeripheralDevice(deviceName: deviceName!)
+  }
+}
+    
+/*****************************************************************************
+* Function :   disconnectedFromDevice
+* Input    :   none
+* Output   :   none
+* Comment  :
+****************************************************************************/
+
+func disconnectedFromDevice(){
+  state = .CONNECTION_FAILED
+}
+    
+/*****************************************************************************
+* Function :   connectionFailed
+* Input    :   none
+* Output   :   none
+* Comment  :
+****************************************************************************/
+    
+func connectionFailed(){
+  state = .CONNECTION_FAILED
+}
+    
+/*****************************************************************************
+* Function :   connectionSuccessfull
+* Input    :   none
+* Output   :   none
+* Comment  :
+****************************************************************************/
+    
+func connectionSuccessfull(){   
+  state = .CONNECTED       
+}
+    
+/*****************************************************************************
+* Function :   readData
+* Input    :   none
+* Output   :   none
+* Comment  :   Reads Incomming Data From BTRelay HUB
+****************************************************************************/
+func readData(notification:Notification){
+        
+  let data = notification.userInfo?["byteArray"] as? [UInt8]
+  print("Incomming Data: \(data)")
+
+}
+```
